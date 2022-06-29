@@ -5,7 +5,6 @@ from loguru import logger
 from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
-from downloadmodel import download_and_save_chatbot_model
 
 from config import (
     API_PREFIX,
@@ -18,16 +17,7 @@ from errors.validation_error import (
 
 from chatbot import router
 
-async def downloading_chatbot_model() -> bool:
-    logger.info("Downloading Chatbot Model ........")
-    try:
 
-        result = await download_and_save_chatbot_model()
-        if result:
-            logger.info("Model Has Been Downloaded and Saved ...")
-            return True
-    except Exception as e:
-        logger.exception(e.__str__)
 
 def get_application() -> FastAPI:
     application = FastAPI(title="ChatBot Service", debug=DEBUG)
@@ -40,7 +30,6 @@ def get_application() -> FastAPI:
         allow_headers=["*"],
     )
 
-    application.add_event_handler("startup", downloading_chatbot_model)
     application.add_exception_handler(HTTPException, http_error_handler)
     application.add_exception_handler(RequestValidationError, http422_error_handler)
 
