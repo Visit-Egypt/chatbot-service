@@ -1,8 +1,5 @@
-name: ChatBot Service
-on:
-  push:
-    branches:
-     - main
+name: Offensive Detector Service
+on: [push]
 
 jobs:
   test:
