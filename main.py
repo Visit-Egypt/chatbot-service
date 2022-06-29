@@ -1,7 +1,7 @@
 from cmath import log
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-# from loguru import logger
+from loguru import logger
 from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
@@ -19,16 +19,15 @@ from errors.validation_error import (
 from chatbot import router
 
 async def downloading_chatbot_model() -> bool:
-    # logger.info("Downloading Chatbot Model ........")
+    logger.info("Downloading Chatbot Model ........")
     try:
 
         result = await download_and_save_chatbot_model()
         if result:
-            #logger.info("Model Has Been Downloaded and Saved ...")
+            logger.info("Model Has Been Downloaded and Saved ...")
             return True
     except Exception as e:
-        pass
-        #logger.exception(e.__str__)
+        logger.exception(e.__str__)
 
 def get_application() -> FastAPI:
     application = FastAPI(title="ChatBot Service", debug=DEBUG)
